@@ -9,3 +9,14 @@ C:\Users\Nick\Desktop\C# Programs\Video Store\Database-first\VideoStore\VideoSto
 C:\Users\Nick\Desktop\C# Programs\Video Store\Database-first\VideoStore\VideoStore\obj\Debug\VideoStore.csproj.CoreCompileInputs.cache
 C:\Users\Nick\Desktop\C# Programs\Video Store\Database-first\VideoStore\VideoStore\obj\Debug\VideoStore.exe
 C:\Users\Nick\Desktop\C# Programs\Video Store\Database-first\VideoStore\VideoStore\obj\Debug\VideoStore.pdb
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\bin\Debug\VideoStore.exe.config
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\bin\Debug\VideoStore.exe
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\bin\Debug\VideoStore.pdb
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\bin\Debug\EntityFramework.dll
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\bin\Debug\EntityFramework.xml
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\obj\Debug\VideoStore.csprojResolveAssemblyReference.cache
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\obj\Debug\VideoStore.csproj.CoreCompileInputs.cache
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\obj\Debug\VideoStore.exe
+C:\Users\Nicholas Mistretta\Desktop\C#\Video-store\database-first\VideoStore\VideoStore\obj\Debug\VideoStore.pdb

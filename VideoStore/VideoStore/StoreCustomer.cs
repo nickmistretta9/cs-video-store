@@ -6,11 +6,19 @@ namespace VideoStore
 {
     public class StoreCustomer
     {
-        VideoStoreEntities _videoStore = new VideoStoreEntities();
+        private VideoStoreEntities _videoStore = new VideoStoreEntities();
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public int Orders { get; set; }
+        public decimal CartPrice { get; set; }
+        public List<Video> CartContents { get; set; }
+
+        public StoreCustomer()
+        {
+            CartPrice = 00.00M;
+            CartContents = new List<Video>();
+        }
 
         public void CreateNewCustomer()
         {
@@ -79,7 +87,7 @@ namespace VideoStore
                         count++;
                     }
                 }
-                int customerDecision = int.Parse(Console.ReadLine());
+                int customerDecision = int.Parse(Console.ReadLine()) - 1;
                 customerToReturn.Name = resultsList[customerDecision].CustomerName;
                 customerToReturn.Email = resultsList[customerDecision].CustomerEmail;
                 customerToReturn.PhoneNumber = resultsList[customerDecision].CustomerPhone;
