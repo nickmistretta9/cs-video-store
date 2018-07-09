@@ -128,6 +128,9 @@ namespace VideoStore
                         doneShopping = PromptToContinueSearching();
                         break;
                     case "4":
+                        FindVideosByPrice();
+                        ChooseVideoFromStore();
+                        doneShopping = PromptToContinueSearching();
                         break;
                 }
             }
@@ -189,6 +192,74 @@ namespace VideoStore
             string[] stringParts = genres[genreIndex - 1].Split(' ');
             string finalGenre = stringParts[1];
             _videosInStore = _videoStore.Videos.Where(v => v.VideoGenre == finalGenre).ToList();
+            DrawTopVideoLine();
+            int count = 1;
+            foreach (Video video in _videosInStore)
+            {
+                DisplayVideoInfo(video, count);
+                count++;
+            }
+            DrawBottomVideoLine();
+        }
+
+        private void FindVideosByPrice()
+        {
+            List<string> options = new List<string>
+            {
+                "1) Find video(s) by exact price",
+                "2) Find video(s) less than a certain price",
+                "3) Find video(s) more than a certain price"
+            };
+            Console.WriteLine("How would you like to search by price?");
+            foreach(string option in options)
+                Console.WriteLine(option);
+            string input = Console.ReadLine();
+            Console.Write("What price would you like to search by?: ");
+            decimal price = decimal.Parse(Console.ReadLine());
+            switch(input)
+            {
+                default:
+                case "1":
+                    GetVideoByExactPrice(price);
+                    break;
+                case "2":
+                    GetVideoByLessThanPrice(price);
+                    break;
+                case "3":
+                    GetVideoByGreaterThanPrice(price);
+                    break;
+            }
+        }
+
+        private void GetVideoByExactPrice(decimal price)
+        {
+            _videosInStore = _videoStore.Videos.Where(v => v.VideoPrice == price).ToList();
+            DrawTopVideoLine();
+            int count = 1;
+            foreach(Video video in _videosInStore)
+            {
+                DisplayVideoInfo(video, count);
+                count++;
+            }
+            DrawBottomVideoLine();
+        }
+
+        private void GetVideoByLessThanPrice(decimal price)
+        {
+            _videosInStore = _videoStore.Videos.Where(v => v.VideoPrice <= price).ToList();
+            DrawTopVideoLine();
+            int count = 1;
+            foreach (Video video in _videosInStore)
+            {
+                DisplayVideoInfo(video, count);
+                count++;
+            }
+            DrawBottomVideoLine();
+        }
+        
+        private void GetVideoByGreaterThanPrice(decimal price)
+        {
+            _videosInStore = _videoStore.Videos.Where(v => v.VideoPrice >= price).ToList();
             DrawTopVideoLine();
             int count = 1;
             foreach (Video video in _videosInStore)

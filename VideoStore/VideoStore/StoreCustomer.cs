@@ -78,6 +78,13 @@ namespace VideoStore
                 int count = 1;
                 if (resultsList.Count == 0)
                     Console.WriteLine("No results found for the name {0}. Please try again.", name);
+                else if(resultsList.Count == 1)
+                {
+                    customerToReturn.Name = resultsList[0].CustomerName;
+                    customerToReturn.Email = resultsList[0].CustomerEmail;
+                    customerToReturn.PhoneNumber = resultsList[0].CustomerPhone;
+                    isFound = true;
+                }
                 else
                 {
                     Console.WriteLine("{0} results found for the name {1}. Please select which one is you.", resultsList.Count, name);
@@ -86,12 +93,12 @@ namespace VideoStore
                         Console.WriteLine("{0}) {1} | {2} | {3}", count, result.CustomerName, result.CustomerEmail, result.CustomerPhone);
                         count++;
                     }
+                    int customerDecision = int.Parse(Console.ReadLine()) - 1;
+                    customerToReturn.Name = resultsList[customerDecision].CustomerName;
+                    customerToReturn.Email = resultsList[customerDecision].CustomerEmail;
+                    customerToReturn.PhoneNumber = resultsList[customerDecision].CustomerPhone;
+                    isFound = true;
                 }
-                int customerDecision = int.Parse(Console.ReadLine()) - 1;
-                customerToReturn.Name = resultsList[customerDecision].CustomerName;
-                customerToReturn.Email = resultsList[customerDecision].CustomerEmail;
-                customerToReturn.PhoneNumber = resultsList[customerDecision].CustomerPhone;
-                isFound = true;
             }
             return customerToReturn;
         }
