@@ -10,7 +10,7 @@ namespace VideoStore
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public int Orders { get; set; }
+        public int CustomerId { get; set; }
         public decimal CartPrice { get; set; }
         public List<Video> CartContents { get; set; }
 
@@ -30,7 +30,7 @@ namespace VideoStore
             PhoneNumber = Console.ReadLine();
             try
             {
-                _videoStore.AddNewCustomer(Name, Email, PhoneNumber, Orders);
+                _videoStore.AddNewCustomer(Name, Email, PhoneNumber);
                 Console.WriteLine("New customer successfully registered. Welcome to the video store {0}", Name);
             } catch(Exception e)
             {
@@ -73,7 +73,7 @@ namespace VideoStore
                 Console.Write("Enter the name to lookup: ");
                 string name = Console.ReadLine();
                 var results = _videoStore.RetrieveCustomerByName(name);
-                List<spRetrieveCustomerByName_Result> resultsList = new List<spRetrieveCustomerByName_Result>();
+                List<RetrieveCustomerByName_Result> resultsList = new List<RetrieveCustomerByName_Result>();
                 resultsList = (from a in results select a).ToList();
                 int count = 1;
                 if (resultsList.Count == 0)
@@ -83,6 +83,7 @@ namespace VideoStore
                     customerToReturn.Name = resultsList[0].CustomerName;
                     customerToReturn.Email = resultsList[0].CustomerEmail;
                     customerToReturn.PhoneNumber = resultsList[0].CustomerPhone;
+                    customerToReturn.CustomerId = resultsList[0].CustomerId;
                     isFound = true;
                 }
                 else
@@ -97,6 +98,7 @@ namespace VideoStore
                     customerToReturn.Name = resultsList[customerDecision].CustomerName;
                     customerToReturn.Email = resultsList[customerDecision].CustomerEmail;
                     customerToReturn.PhoneNumber = resultsList[customerDecision].CustomerPhone;
+                    customerToReturn.CustomerId = resultsList[0].CustomerId;
                     isFound = true;
                 }
             }

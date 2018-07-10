@@ -14,10 +14,21 @@ namespace VideoStore
     
     public partial class Video
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Video()
+        {
+            this.VideoOrders = new HashSet<VideoOrder>();
+        }
+    
         public int VideoId { get; set; }
         public string VideoTitle { get; set; }
         public System.DateTime VideoReleaseDate { get; set; }
         public string VideoGenre { get; set; }
         public decimal VideoPrice { get; set; }
+        public Nullable<int> OrderNumber { get; set; }
+    
+        public virtual Order Order { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VideoOrder> VideoOrders { get; set; }
     }
 }

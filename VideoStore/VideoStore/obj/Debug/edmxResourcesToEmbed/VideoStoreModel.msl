@@ -1,51 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="VideoStoreModelStoreContainer" CdmEntityContainer="VideoStoreEntities">
-    <EntitySetMapping Name="Customers">
-      <EntityTypeMapping TypeName="VideoStoreModel.Customer">
-        <MappingFragment StoreEntitySet="Customers">
-          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+    <FunctionImportMapping FunctionImportName="AddVideo" FunctionName="VideoStoreModel.Store.spAddVideo" />
+    <FunctionImportMapping FunctionImportName="AddNewCustomer" FunctionName="VideoStoreModel.Store.spAddNewCustomer" />
+    <FunctionImportMapping FunctionImportName="RetrieveCustomerByName" FunctionName="VideoStoreModel.Store.spRetrieveCustomerByName">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="VideoStoreModel.RetrieveCustomerByName_Result">
           <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
           <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
           <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
-          <ScalarProperty Name="CustomerOrder" ColumnName="CustomerOrder" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="AddNewOrder" FunctionName="VideoStoreModel.Store.spAddNewOrder" />
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="VideoStoreModel.Customer">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+          <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="VideoStoreModel.Order">
         <MappingFragment StoreEntitySet="Orders">
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-          <ScalarProperty Name="OrderCustomer" ColumnName="OrderCustomer" />
-          <ScalarProperty Name="OrderPrice" ColumnName="OrderPrice" />
-          <ScalarProperty Name="OrderContents" ColumnName="OrderContents" />
           <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderPrice" ColumnName="OrderPrice" />
+          <ScalarProperty Name="OrderCustomer" ColumnName="OrderCustomer" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Videos">
       <EntityTypeMapping TypeName="VideoStoreModel.Video">
         <MappingFragment StoreEntitySet="Videos">
-          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
-          <ScalarProperty Name="VideoTitle" ColumnName="VideoTitle" />
-          <ScalarProperty Name="VideoReleaseDate" ColumnName="VideoReleaseDate" />
-          <ScalarProperty Name="VideoGenre" ColumnName="VideoGenre" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
           <ScalarProperty Name="VideoPrice" ColumnName="VideoPrice" />
+          <ScalarProperty Name="VideoGenre" ColumnName="VideoGenre" />
+          <ScalarProperty Name="VideoReleaseDate" ColumnName="VideoReleaseDate" />
+          <ScalarProperty Name="VideoTitle" ColumnName="VideoTitle" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="AddVideo" FunctionName="VideoStoreModel.Store.spAddVideo" />
-    <FunctionImportMapping FunctionImportName="AddNewCustomer" FunctionName="VideoStoreModel.Store.spAddNewCustomer" />
-    <FunctionImportMapping FunctionImportName="RetrieveCustomerByName" FunctionName="VideoStoreModel.Store.spRetrieveCustomerByName">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="VideoStoreModel.spRetrieveCustomerByName_Result">
-          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-          <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
-          <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
-          <ScalarProperty Name="CustomerOrder" ColumnName="CustomerOrder" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="RetrieveCustomerId" FunctionName="VideoStoreModel.Store.spRetrieveCustomerId" />
   </EntityContainerMapping>
 </Mapping>

@@ -59,12 +59,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RetrieveCustomerByName_Result.cs">
+      <DependentUpon>VideoStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="spRetrieveCustomerByName_Result.cs">
       <DependentUpon>VideoStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Store.cs" />
     <Compile Include="StoreCustomer.cs" />
     <Compile Include="Video.cs">
+      <DependentUpon>VideoStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VideoOrder.cs">
       <DependentUpon>VideoStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="VideoStoreModel.Context.cs">

@@ -30,6 +30,7 @@ namespace VideoStore
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Video> Videos { get; set; }
+        public virtual DbSet<VideoOrder> VideoOrders { get; set; }
     
         public virtual int AddVideo(string videoTitle, Nullable<System.DateTime> videoReleaseDate, string videoGenre, string videoPrice)
         {
@@ -52,7 +53,7 @@ namespace VideoStore
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddVideo", videoTitleParameter, videoReleaseDateParameter, videoGenreParameter, videoPriceParameter);
         }
     
-        public virtual int AddNewCustomer(string customerName, string customerEmail, string customerPhone, Nullable<int> customerOrder)
+        public virtual int AddNewCustomer(string customerName, string customerEmail, string customerPhone)
         {
             var customerNameParameter = customerName != null ?
                 new ObjectParameter("CustomerName", customerName) :
@@ -66,20 +67,55 @@ namespace VideoStore
                 new ObjectParameter("CustomerPhone", customerPhone) :
                 new ObjectParameter("CustomerPhone", typeof(string));
     
-            var customerOrderParameter = customerOrder.HasValue ?
-                new ObjectParameter("CustomerOrder", customerOrder) :
-                new ObjectParameter("CustomerOrder", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddNewCustomer", customerNameParameter, customerEmailParameter, customerPhoneParameter, customerOrderParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddNewCustomer", customerNameParameter, customerEmailParameter, customerPhoneParameter);
         }
     
-        public virtual ObjectResult<spRetrieveCustomerByName_Result> RetrieveCustomerByName(string customerName)
+        public virtual ObjectResult<RetrieveCustomerByName_Result> RetrieveCustomerByName(string customerName)
         {
             var customerNameParameter = customerName != null ?
                 new ObjectParameter("CustomerName", customerName) :
                 new ObjectParameter("CustomerName", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spRetrieveCustomerByName_Result>("RetrieveCustomerByName", customerNameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RetrieveCustomerByName_Result>("RetrieveCustomerByName", customerNameParameter);
+        }
+    
+        public virtual int AddNewOrder(Nullable<decimal> orderPrice, Nullable<System.DateTime> orderDate, Nullable<int> orderCustomer)
+        {
+            var orderPriceParameter = orderPrice.HasValue ?
+                new ObjectParameter("OrderPrice", orderPrice) :
+                new ObjectParameter("OrderPrice", typeof(decimal));
+    
+            var orderDateParameter = orderDate.HasValue ?
+                new ObjectParameter("OrderDate", orderDate) :
+                new ObjectParameter("OrderDate", typeof(System.DateTime));
+    
+            var orderCustomerParameter = orderCustomer.HasValue ?
+                new ObjectParameter("OrderCustomer", orderCustomer) :
+                new ObjectParameter("OrderCustomer", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddNewOrder", orderPriceParameter, orderDateParameter, orderCustomerParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> RetrieveCustomerId(string customerName)
+        {
+            var customerNameParameter = customerName != null ?
+                new ObjectParameter("CustomerName", customerName) :
+                new ObjectParameter("CustomerName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("RetrieveCustomerId", customerNameParameter);
+        }
+    
+        public virtual int AddNewVideoOrder(Nullable<int> videoId, Nullable<int> orderId)
+        {
+            var videoIdParameter = videoId.HasValue ?
+                new ObjectParameter("VideoId", videoId) :
+                new ObjectParameter("VideoId", typeof(int));
+    
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddNewVideoOrder", videoIdParameter, orderIdParameter);
         }
     }
 }

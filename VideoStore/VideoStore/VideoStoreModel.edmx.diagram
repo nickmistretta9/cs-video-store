@@ -5,10 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="51ff167925b44474a588102e0e78431f" Name="Diagram1">
-        <EntityTypeShape EntityType="VideoStoreModel.Customer" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VideoStoreModel.Order" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VideoStoreModel.Video" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-      </Diagram>
+        <EntityTypeShape EntityType="VideoStoreModel.Customer" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="VideoStoreModel.Order" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="VideoStoreModel.Video" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="VideoStoreModel.FK_Videos_Orders" />
+        <EntityTypeShape EntityType="VideoStoreModel.VideoOrder" Width="1.5" PointX="5.25" PointY="1.25" />
+        <AssociationConnector Association="VideoStoreModel.FK_VideoOrder_Orders" />
+        <AssociationConnector Association="VideoStoreModel.FK_VideoOrder_Videos" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

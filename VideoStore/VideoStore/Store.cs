@@ -10,6 +10,7 @@ namespace VideoStore
         private List<string> _mainOptions;
         private StoreCustomer _customer;
         private List<Video> _videosInStore;
+        private Order _order;
 
         public Store()
         {
@@ -20,7 +21,8 @@ namespace VideoStore
                 "2) Add a new video to the store",
                 "3) Purchase video(s)",
                 "4) View item(s) in cart",
-                "5) Quit"
+                "5) View previous orders",
+                "6) Quit"
             };
             _customer = new StoreCustomer();
         }
@@ -66,6 +68,9 @@ namespace VideoStore
                         DisplayItemsInCart();
                         break;
                     case "5":
+                        ViewPreviousOrders();
+                        break;
+                    case "6":
                         IsDone = true;
                         break;
                 }
@@ -116,24 +121,66 @@ namespace VideoStore
                         ListAllVideosFromStore();
                         ChooseVideoFromStore();
                         doneShopping = PromptToContinueSearching();
+                        if (doneShopping)
+                            Checkout();
+                        Console.WriteLine("Order has been successfully created");
                         break;
                     case "2":
                         FindVideosByName();
                         ChooseVideoFromStore();
                         doneShopping = PromptToContinueSearching();
+                        if (doneShopping)
+                            Checkout();
+                        Console.WriteLine("Order has been successfully created");
                         break;
                     case "3":
                         FindVideosByGenre();
                         ChooseVideoFromStore();
                         doneShopping = PromptToContinueSearching();
+                        if (doneShopping)
+                            Checkout();
+                        Console.WriteLine("Order has been successfully created");
                         break;
                     case "4":
                         FindVideosByPrice();
                         ChooseVideoFromStore();
                         doneShopping = PromptToContinueSearching();
+                        if (doneShopping)
+                            Checkout();
+                        Console.WriteLine("Order has been successfully created");
                         break;
                 }
             }
+        }
+
+        private void ViewPreviousOrders()
+        {
+            List<Order> previousOrders = new List<Order>();
+            previousOrders = _videoStore.Orders.Where(o => o.OrderCustomer == _customer.CustomerId).ToList();
+            int count = 1;
+            List<VideoOrder> orderVideos = _videoStore.VideoOrders.Where(v => v.OrderId == _order.OrderId).ToList();
+            //List<Video> videos = _videoStore.VideoOrders.Where(v => v.VideoId == )
+            DrawTopOrderLine();
+            foreach (Order order in previousOrders)
+            {
+                Console.WriteLine("{0}) {1} | {2} | {3}", count, order.OrderPrice, order.OrderDate);
+                count++;
+            }
+            DrawBottomVideoLine();
+        }
+
+        private void Checkout()
+        {
+            var customerId = _videoStore.RetrieveCustomerId(_customer.Name).FirstOrDefault();
+            _order = new Order
+            {
+                OrderPrice = _customer.CartPrice,
+                OrderDate = DateTime.Now,
+                OrderCustomer = (int)customerId
+            };
+            _videoStore.AddNewOrder(_order.OrderPrice, _order.OrderDate, _order.OrderCustomer);
+            foreach (Video video in _customer.CartContents)
+                _videoStore.AddNewVideoOrder(video.VideoId, _order.OrderId);
         }
 
         private void AddVideoToStore()
@@ -182,7 +229,6 @@ namespace VideoStore
                 "4) Horror",
                 "5) Adventure"
             };
-            //List<Video> genres = _videoStore.Videos.SqlQuery("SELECT * FROM dbo.Videos").ToList();
 
             Console.WriteLine("Which genre would you like to search for?");
             foreach (var genre in genres)
@@ -327,6 +373,12 @@ namespace VideoStore
         private void DrawTopVideoLine()
         {
             Console.WriteLine("Video Title | Release Date | Genre | Price");
+            Console.WriteLine("------------------------------------------");
+        }
+
+        private void DrawTopOrderLine()
+        {
+            Console.WriteLine("Order Price | Order Date | Order Content");
             Console.WriteLine("------------------------------------------");
         }
 
