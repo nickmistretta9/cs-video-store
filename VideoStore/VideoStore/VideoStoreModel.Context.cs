@@ -29,8 +29,8 @@ namespace VideoStore
     
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<Video> Videos { get; set; }
         public virtual DbSet<VideoOrder> VideoOrders { get; set; }
+        public virtual DbSet<Video> Videos { get; set; }
     
         public virtual int AddVideo(string videoTitle, Nullable<System.DateTime> videoReleaseDate, string videoGenre, string videoPrice)
         {
@@ -116,6 +116,15 @@ namespace VideoStore
                 new ObjectParameter("OrderId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddNewVideoOrder", videoIdParameter, orderIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> RetrieveVideoIds(Nullable<int> orderId)
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("RetrieveVideoIds", orderIdParameter);
         }
     }
 }

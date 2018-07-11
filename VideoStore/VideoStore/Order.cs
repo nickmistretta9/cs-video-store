@@ -14,21 +14,9 @@ namespace VideoStore
     
     public partial class Order
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Order()
-        {
-            this.Videos = new HashSet<Video>();
-            this.VideoOrders = new HashSet<VideoOrder>();
-        }
-    
         public int OrderId { get; set; }
         public int OrderCustomer { get; set; }
         public decimal OrderPrice { get; set; }
         public System.DateTime OrderDate { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Video> Videos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VideoOrder> VideoOrders { get; set; }
     }
 }

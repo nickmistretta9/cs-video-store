@@ -10,7 +10,7 @@ namespace VideoStore
         private List<string> _mainOptions;
         private StoreCustomer _customer;
         private List<Video> _videosInStore;
-        private Order _order;
+        private int _orderNumber = 1;
 
         public Store()
         {
@@ -158,12 +158,21 @@ namespace VideoStore
             List<Order> previousOrders = new List<Order>();
             previousOrders = _videoStore.Orders.Where(o => o.OrderCustomer == _customer.CustomerId).ToList();
             int count = 1;
-            List<VideoOrder> orderVideos = _videoStore.VideoOrders.Where(v => v.OrderId == _order.OrderId).ToList();
-            //List<Video> videos = _videoStore.VideoOrders.Where(v => v.VideoId == )
             DrawTopOrderLine();
             foreach (Order order in previousOrders)
             {
-                Console.WriteLine("{0}) {1} | {2} | {3}", count, order.OrderPrice, order.OrderDate);
+                string videoContent = "";
+                var videoIds = _videoStore.RetrieveVideoIds(order.OrderId).ToList();
+                foreach (var videoId in videoIds)
+                {
+                    var videos = _videoStore.Videos.Where(v => v.VideoId == videoId).ToList();
+                    foreach (var video in videos)
+                    {
+                        videoContent += video.VideoTitle;
+                        videoContent += ", ";
+                    }
+                }
+                Console.WriteLine("{0}) {1} | {2} | {3}", count, order.OrderPrice, order.OrderDate, videoContent);
                 count++;
             }
             DrawBottomVideoLine();
@@ -172,15 +181,16 @@ namespace VideoStore
         private void Checkout()
         {
             var customerId = _videoStore.RetrieveCustomerId(_customer.Name).FirstOrDefault();
-            _order = new Order
+            Order order = new Order
             {
                 OrderPrice = _customer.CartPrice,
                 OrderDate = DateTime.Now,
-                OrderCustomer = (int)customerId
+                OrderCustomer = (int)customerId,
+                OrderId = _orderNumber
             };
-            _videoStore.AddNewOrder(_order.OrderPrice, _order.OrderDate, _order.OrderCustomer);
             foreach (Video video in _customer.CartContents)
-                _videoStore.AddNewVideoOrder(video.VideoId, _order.OrderId);
+                _videoStore.AddNewVideoOrder(video.VideoId, order.OrderId);
+            _orderNumber++;
         }
 
         private void AddVideoToStore()

@@ -20,16 +20,24 @@
       <Parameter Name="OrderDate" Mode="In" Type="DateTime" />
       <Parameter Name="OrderCustomer" Mode="In" Type="Int32" />
     </FunctionImport>
-    <EntitySet Name="Customers" EntityType="VideoStoreModel.Customer" />
-    <EntitySet Name="Orders" EntityType="VideoStoreModel.Order" />
-    <EntitySet Name="Videos" EntityType="VideoStoreModel.Video" />
-    <AssociationSet Name="FK_Videos_Orders" Association="VideoStoreModel.FK_Videos_Orders">
-      <End Role="Order" EntitySet="Orders" />
-      <End Role="Video" EntitySet="Videos" />
-    </AssociationSet>
     <FunctionImport Name="RetrieveCustomerId" ReturnType="Collection(Int32)">
       <Parameter Name="CustomerName" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="AddNewVideoOrder">
+      <Parameter Name="VideoId" Mode="In" Type="Int32" />
+      <Parameter Name="OrderId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="RetrieveVideoIds" ReturnType="Collection(Int32)">
+      <Parameter Name="OrderId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="Customers" EntityType="VideoStoreModel.Customer" />
+    <EntitySet Name="Orders" EntityType="VideoStoreModel.Order" />
+    <EntitySet Name="VideoOrders" EntityType="VideoStoreModel.VideoOrder" />
+    <EntitySet Name="Videos" EntityType="VideoStoreModel.Video" />
+    <AssociationSet Name="FK_VideoOrder_Videos" Association="VideoStoreModel.FK_VideoOrder_Videos">
+      <End Role="Video" EntitySet="Videos" />
+      <End Role="VideoOrder" EntitySet="VideoOrders" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="spRetrieveCustomerByName_Result">
     <Property Type="Int32" Name="CustomerId" Nullable="false" />
@@ -37,6 +45,12 @@
     <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="CustomerPhone" Nullable="true" MaxLength="11" />
     <Property Type="Int32" Name="CustomerOrder" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="RetrieveCustomerByName_Result">
+    <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CustomerPhone" Nullable="true" MaxLength="11" />
+    <Property Type="Int32" Name="CustomerId" Nullable="false" />
   </ComplexType>
   <EntityType Name="Customer">
     <Key>
@@ -55,7 +69,15 @@
     <Property Name="OrderCustomer" Type="Int32" Nullable="false" />
     <Property Name="OrderPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
     <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Videos" Relationship="VideoStoreModel.FK_Videos_Orders" FromRole="Order" ToRole="Video" />
+  </EntityType>
+  <EntityType Name="VideoOrder">
+    <Key>
+      <PropertyRef Name="VideoOrderId" />
+    </Key>
+    <Property Name="VideoOrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="VideoId" Type="Int32" Nullable="false" />
+    <Property Name="OrderId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Video" Relationship="VideoStoreModel.FK_VideoOrder_Videos" FromRole="VideoOrder" ToRole="Video" />
   </EntityType>
   <EntityType Name="Video">
     <Key>
@@ -67,24 +89,18 @@
     <Property Name="VideoGenre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="VideoPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
     <Property Name="OrderNumber" Type="Int32" />
-    <NavigationProperty Name="Order" Relationship="VideoStoreModel.FK_Videos_Orders" FromRole="Video" ToRole="Order" />
+    <NavigationProperty Name="VideoOrders" Relationship="VideoStoreModel.FK_VideoOrder_Videos" FromRole="Video" ToRole="VideoOrder" />
   </EntityType>
-  <Association Name="FK_Videos_Orders">
-    <End Type="VideoStoreModel.Order" Role="Order" Multiplicity="0..1" />
-    <End Type="VideoStoreModel.Video" Role="Video" Multiplicity="*" />
+  <Association Name="FK_VideoOrder_Videos">
+    <End Type="VideoStoreModel.Video" Role="Video" Multiplicity="1" />
+    <End Type="VideoStoreModel.VideoOrder" Role="VideoOrder" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Order">
-        <PropertyRef Name="OrderId" />
+      <Principal Role="Video">
+        <PropertyRef Name="VideoId" />
       </Principal>
-      <Dependent Role="Video">
-        <PropertyRef Name="OrderNumber" />
+      <Dependent Role="VideoOrder">
+        <PropertyRef Name="VideoId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <ComplexType Name="RetrieveCustomerByName_Result">
-    <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
-    <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="CustomerPhone" Nullable="true" MaxLength="11" />
-    <Property Type="Int32" Name="CustomerId" Nullable="false" />
-  </ComplexType>
 </Schema>

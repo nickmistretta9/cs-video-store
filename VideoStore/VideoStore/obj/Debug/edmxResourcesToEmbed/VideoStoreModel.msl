@@ -14,6 +14,9 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="AddNewOrder" FunctionName="VideoStoreModel.Store.spAddNewOrder" />
+    <FunctionImportMapping FunctionImportName="RetrieveCustomerId" FunctionName="VideoStoreModel.Store.spRetrieveCustomerId" />
+    <FunctionImportMapping FunctionImportName="AddNewVideoOrder" FunctionName="VideoStoreModel.Store.spAddNewVideoOrder" />
+    <FunctionImportMapping FunctionImportName="RetrieveVideoIds" FunctionName="VideoStoreModel.Store.spRetrieveVideoIds" />
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="VideoStoreModel.Customer">
         <MappingFragment StoreEntitySet="Customers">
@@ -34,6 +37,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="VideoOrders">
+      <EntityTypeMapping TypeName="VideoStoreModel.VideoOrder">
+        <MappingFragment StoreEntitySet="VideoOrders">
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+          <ScalarProperty Name="VideoOrderId" ColumnName="VideoOrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Videos">
       <EntityTypeMapping TypeName="VideoStoreModel.Video">
         <MappingFragment StoreEntitySet="Videos">
@@ -46,6 +58,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="RetrieveCustomerId" FunctionName="VideoStoreModel.Store.spRetrieveCustomerId" />
   </EntityContainerMapping>
 </Mapping>

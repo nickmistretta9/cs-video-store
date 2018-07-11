@@ -18,6 +18,14 @@
     <Property Name="OrderPrice" Type="money" Nullable="false" />
     <Property Name="OrderDate" Type="datetime" Nullable="false" />
   </EntityType>
+  <EntityType Name="VideoOrders">
+    <Key>
+      <PropertyRef Name="VideoOrderId" />
+    </Key>
+    <Property Name="VideoOrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VideoId" Type="int" Nullable="false" />
+    <Property Name="OrderId" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Videos">
     <Key>
       <PropertyRef Name="VideoId" />
@@ -29,15 +37,15 @@
     <Property Name="VideoPrice" Type="money" Nullable="false" />
     <Property Name="OrderNumber" Type="int" />
   </EntityType>
-  <Association Name="FK_Videos_Orders">
-    <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
-    <End Role="Videos" Type="Self.Videos" Multiplicity="*" />
+  <Association Name="FK_VideoOrder_Videos">
+    <End Role="Videos" Type="Self.Videos" Multiplicity="1" />
+    <End Role="VideoOrders" Type="Self.VideoOrders" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Orders">
-        <PropertyRef Name="OrderId" />
+      <Principal Role="Videos">
+        <PropertyRef Name="VideoId" />
       </Principal>
-      <Dependent Role="Videos">
-        <PropertyRef Name="OrderNumber" />
+      <Dependent Role="VideoOrders">
+        <PropertyRef Name="VideoId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -51,6 +59,10 @@
     <Parameter Name="OrderDate" Type="datetime" Mode="In" />
     <Parameter Name="OrderCustomer" Type="int" Mode="In" />
   </Function>
+  <Function Name="spAddNewVideoOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="VideoId" Type="int" Mode="In" />
+    <Parameter Name="OrderId" Type="int" Mode="In" />
+  </Function>
   <Function Name="spAddVideo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="VideoTitle" Type="varchar" Mode="In" />
     <Parameter Name="VideoReleaseDate" Type="datetime" Mode="In" />
@@ -63,13 +75,17 @@
   <Function Name="spRetrieveCustomerId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="CustomerName" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="spRetrieveVideoIds" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderId" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="VideoStoreModelStoreContainer">
     <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VideoOrders" EntityType="Self.VideoOrders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Videos" EntityType="Self.Videos" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_Videos_Orders" Association="Self.FK_Videos_Orders">
-      <End Role="Orders" EntitySet="Orders" />
+    <AssociationSet Name="FK_VideoOrder_Videos" Association="Self.FK_VideoOrder_Videos">
       <End Role="Videos" EntitySet="Videos" />
+      <End Role="VideoOrders" EntitySet="VideoOrders" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

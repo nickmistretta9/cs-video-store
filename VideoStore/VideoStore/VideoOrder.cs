@@ -18,7 +18,6 @@ namespace VideoStore
         public int VideoId { get; set; }
         public int OrderId { get; set; }
     
-        public virtual Order Order { get; set; }
         public virtual Video Video { get; set; }
     }
 }
